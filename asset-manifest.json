@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Rick_Morty/static/css/main.9093ccf3.chunk.css",
+    "main.js": "/Rick_Morty/static/js/main.dafbaaee.chunk.js",
+    "main.js.map": "/Rick_Morty/static/js/main.dafbaaee.chunk.js.map",
+    "runtime-main.js": "/Rick_Morty/static/js/runtime-main.3f8ab4fb.js",
+    "runtime-main.js.map": "/Rick_Morty/static/js/runtime-main.3f8ab4fb.js.map",
+    "static/js/2.280048b9.chunk.js": "/Rick_Morty/static/js/2.280048b9.chunk.js",
+    "static/js/2.280048b9.chunk.js.map": "/Rick_Morty/static/js/2.280048b9.chunk.js.map",
+    "static/js/3.884dee88.chunk.js": "/Rick_Morty/static/js/3.884dee88.chunk.js",
+    "static/js/3.884dee88.chunk.js.map": "/Rick_Morty/static/js/3.884dee88.chunk.js.map",
+    "index.html": "/Rick_Morty/index.html",
+    "static/css/main.9093ccf3.chunk.css.map": "/Rick_Morty/static/css/main.9093ccf3.chunk.css.map",
+    "static/js/2.280048b9.chunk.js.LICENSE.txt": "/Rick_Morty/static/js/2.280048b9.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3f8ab4fb.js",
+    "static/js/2.280048b9.chunk.js",
+    "static/css/main.9093ccf3.chunk.css",
+    "static/js/main.dafbaaee.chunk.js"
+  ]
+}
