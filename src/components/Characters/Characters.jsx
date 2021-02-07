@@ -1,120 +1,183 @@
-import React, { useState, useEffect } from 'react';
-import './Characters.scss';
+import React, { useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
+import './Characters.scss';
 
-import { getCharacters, getFilteredCharacters } from '../../api/characters';
+import { getCharacters } from '../../api/characters';
 import { CharactersFilter } from './CharactersFilter/CharactersFilter';
 import { Character } from '../Character/Character';
 import { ModalCharacter } from '../ModalCharacter/ModalCharacter';
 
 export const Characters = () => {
+  // персонажи
   const [ charactersFromServer, setCharacters ] = useState([]);
-  // const [ filteredCharacters, setFilteredCharacters ] = useState([...charactersFromServer]);
 
+  // подходит под условия
   const [ cardsAmount, setCardsAmount ] = useState(0);
+  const [ pagesAmount, setPagesAmount ] = useState(0);
+
+  // текущая страница
   const [ currentPage, setCurrentPage] = useState(1);
-  const [ cardsIndexes, setCardsIndexes ] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+  // модалка
   const [ currentModal, setModal ] = useState(null);
 
-  const handlePage = (indexPage, direction) => {
-    let newIndexes;
+  // фильтры
+  const [ filterParams, setFilter ] = useState({
+    status: '',
+    species: '',
+    gender: '',
+  });
 
-    if (direction === 'forward') {
-      newIndexes = cardsIndexes.map(card => card + indexPage);
-      setCurrentPage(currentPage => currentPage + 1);
-      setCardsIndexes(newIndexes);
+  const {status, species, gender} = filterParams;
+
+  useEffect(async () => {
+    const newCharacters = await getCharacters(
+      `character/?page=${currentPage}&status=${status}&gender=${gender}&species=${species}`
+    );
+
+    if (newCharacters.error) {
+      setCharacters(newCharacters.results);
+      setCardsAmount(0);
+      setPagesAmount(0);
+
+      console.log(newCharacters.error);
       return;
     }
 
-    newIndexes = cardsIndexes.map(card => card - indexPage);
-    setCurrentPage(currentPage => currentPage - 1);
-    setCardsIndexes(newIndexes);
-  };
-
-  useEffect(async () => {
-    const charactersFromServer = await getCharacters(`character`);
-
-    setCardsAmount(charactersFromServer.info.count);
-  }, []);
-
-
-  useEffect(async () => {
-    const newCharacters = await getCharacters(`character/${cardsIndexes}`);
-
-    setCharacters(newCharacters);
-  }, [cardsIndexes]);
-
+    setCardsAmount(newCharacters.info.count);
+    setPagesAmount(newCharacters.info.pages);
+    setCharacters(newCharacters.results);
+  }, [currentPage, filterParams]);
 
   const showMore = ({...characterInfo}) => {
     setModal(characterInfo);
-  }
+  };
 
   const modalReset = () => {
     setModal(null);
   }
 
-  // const handleFilter = (filterBy, filterValue) => {
-  //   if (filterValue !== 'All') {
-  //     const filteredCharacters = charactersFromServer
-  //       .filter(character => character[filterBy] === filterValue);
+  const handleFilter = (filter) => {
+    setFilter({...filter});
+    setCurrentPage(1);
+  };
 
-  //     setFilteredCharacters(filteredCharacters);
-
-  //     return;
-  //   }
-
-  //   setFilteredCharacters(charactersFromServer);
-  // }
+  console.log(filterParams);
 
   return (
     <div className="Characters">
-      {/* <CharactersFilter
+      <CharactersFilter
         handleFilter={handleFilter}
-        characters={charactersFromServer}
-      /> */}
+      />
 
-      <div className="Characters__list">
-        {
-          charactersFromServer.map(character => (
-            <Character
-              showMore={showMore}
-              key={character.id}
-              {...character}
-            />
-          ))
-        }
+      <div className="Characters__info">
+        <p>Found characters: {cardsAmount || "0"}</p>
+        <p>Pages: {pagesAmount || "0"}</p>
       </div>
 
-      <div className="Characters__nav">
-        <a
-          className={classNames("Characters__nav-toggler", {
-            "Characters__nav-toggler--disabled": (currentPage <= 1),
-          })}
-          onClick={(event) => {
-            event.preventDefault();
-            modalReset();
-            handlePage(cardsIndexes.length, 'back');
-          }}
-          href="#"
-        >
-          back
-        </a>
+      {charactersFromServer &&
+        <div className="Characters__list">
+            {
+              charactersFromServer.map(character => (
+                <Character
+                  showMore={showMore}
+                  key={character.id}
+                  {...character}
+                />
+              ))
+            }
+        </div>
+      }
 
-        <a
-          className={classNames("Characters__nav-toggler", {
-            "Characters__nav-toggler--disabled":
-              ((cardsAmount / cardsIndexes.length) < currentPage),
-          })}
-          onClick={(event) => {
-            event.preventDefault();
-            modalReset();
-            handlePage(cardsIndexes.length, 'forward');
-          }}
-          href="#"
-        >
-          forward
-        </a>
-      </div>
+      {pagesAmount > 1 &&
+        <>
+          <div className="Characters__pagination">
+            {currentPage > 1 &&
+              <button
+                type="button"
+                className="Characters__page-button"
+                onClick={() => setCurrentPage(1)}
+              >
+                1
+              </button>
+            }
+
+            {currentPage > 3 && "..."}
+
+            {currentPage > 2 &&
+              <button
+                type="button"
+                className="Characters__page-button"
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                {currentPage - 1}
+              </button>
+            }
+
+            <button
+              disabled
+              type="button"
+              className="Characters__page-button"
+            >
+              {currentPage}
+            </button>
+
+            {(currentPage < pagesAmount - 1) &&
+              <>
+                <button
+                  type="button"
+                  className="Characters__page-button"
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  {currentPage + 1}
+                </button>
+              </>
+            }
+
+            {(currentPage < pagesAmount - 2) && "..."}
+
+            {currentPage < pagesAmount &&
+              <button
+                type="button"
+                className="Characters__page-button"
+                onClick={() => setCurrentPage(pagesAmount)}
+              >
+                {pagesAmount}
+              </button>
+            }
+          </div>
+
+          <div className="Characters__nav">
+            <button
+              type="button"
+              className={classNames("Characters__nav-toggler", {
+                "Characters__nav-toggler--disabled": (currentPage < 2),
+              })}
+              onClick={(event) => {
+                event.preventDefault();
+                modalReset();
+                setCurrentPage(currentPage => currentPage - 1);
+              }}
+            >
+              back
+            </button>
+
+            <button
+              type="button"
+              className={classNames("Characters__nav-toggler", {
+                "Characters__nav-toggler--disabled": (pagesAmount <= currentPage),
+              })}
+              onClick={(event) => {
+                event.preventDefault();
+                modalReset();
+                setCurrentPage(currentPage => currentPage + 1);
+              }}
+            >
+              forward
+            </button>
+          </div>
+        </>
+      }
 
       {currentModal &&
         <ModalCharacter {...currentModal} modalReset={modalReset} />

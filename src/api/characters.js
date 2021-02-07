@@ -7,5 +7,4 @@ export const getCharacters = async (route) => {
   );
 
   return await request.json();
-  // console.log(reulet);
 }
