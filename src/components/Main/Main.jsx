@@ -16,21 +16,23 @@ export const Main = () => {
 
   return (
     <main className="Main">
-      <Route path="/characters">
-        <Characters />
-      </Route>
-      
-      <Route path="/episodes">
-        <Episodes />
-      </Route>
+      <Switch>
+        <Route exact path="/episodes">
+          <Episodes />
+        </Route>
 
-      <Route path="/locations">
-        <Locations />
-      </Route>
+        <Route exact path="/locations">
+          <Locations />
+        </Route>
 
-      <Route path="/my_list">
-        <WatchList />
-      </Route>
+        <Route exact path="/my_list">
+          <WatchList />
+        </Route>
+
+        <Route path="/">
+          <Characters />
+        </Route>
+      </Switch>
     </main>
   )
 }
