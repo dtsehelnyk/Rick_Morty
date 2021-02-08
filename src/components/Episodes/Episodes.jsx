@@ -1,30 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import './Episodes.scss';
 
 import { getData } from '../../api/api';
 import { EpisodesFilter } from './EpisodesFilter/EpisodesFilter';
 import { Pagination } from '../Pagination/Pagination';
+import { ListNav } from '../ListNav/ListNav';
 
 export const Episodes = () => {
   const [ episodesFromServer, setEpisodes ] = useState([]);
   const [ episodesAmount, setEpisodesAmount ] = useState(0);
   const [ pagesAmount, setPagesAmount ] = useState(0);
-
   const [ currentPage, setCurrentPage ] = useState(1);
-
   const [ query, setQuery ] = useState('');
 
   useEffect( async() => {
     const newEpisodes = await getData(
       `episode?page=${currentPage}&name=${query}`
     );
-    
+
     if (newEpisodes.error) {
       return;
     }
-
-    console.log(newEpisodes);
 
     setEpisodesAmount(newEpisodes.info.count);
     setPagesAmount(newEpisodes.info.pages);
@@ -54,33 +50,11 @@ export const Episodes = () => {
         pagesAmount={pagesAmount}
       />
 
-      <div className="Episodes__nav">
-        <button
-          type="button"
-          className={classNames("Episodes__nav-toggler", {
-            "Episodes__nav-toggler--disabled": (currentPage < 2),
-          })}
-          onClick={(event) => {
-            event.preventDefault();
-            setCurrentPage(currentPage => currentPage - 1);
-          }}
-        >
-          back
-        </button>
-
-        <button
-          type="button"
-          className={classNames("Episodes__nav-toggler", {
-            "Episodes__nav-toggler--disabled": (pagesAmount <= currentPage),
-          })}
-          onClick={(event) => {
-            event.preventDefault();
-            setCurrentPage(currentPage => currentPage + 1);
-          }}
-        >
-          forward
-        </button>
-      </div>
+      <ListNav
+        currentPage={currentPage}
+        pagesAmount={pagesAmount}
+        setCurrentPage={setCurrentPage}
+      />
 
       <table className="Episodes__table">
         <thead>

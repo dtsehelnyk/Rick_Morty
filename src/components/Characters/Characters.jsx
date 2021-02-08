@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
 import './Characters.scss';
 
 import { getData } from '../../api/api';
@@ -7,6 +6,7 @@ import { CharactersFilter } from './CharactersFilter/CharactersFilter';
 import { Character } from '../Character/Character';
 import { ModalCharacter } from '../ModalCharacter/ModalCharacter';
 import { Pagination } from '../Pagination/Pagination';
+import { ListNav } from '../ListNav/ListNav';
 
 export const Characters = () => {
   const [ charactersFromServer, setCharacters ] = useState([]);
@@ -56,8 +56,6 @@ export const Characters = () => {
     setCurrentPage(1);
   };
 
-  console.log(filterParams);
-
   return (
     <div className="Characters">
       <h1 className="Characters__title">Characters</h1>
@@ -76,35 +74,11 @@ export const Characters = () => {
         pagesAmount={pagesAmount}
       />
 
-      <div className="Characters__nav">
-        <button
-          type="button"
-          className={classNames("Characters__nav-toggler", {
-            "Characters__nav-toggler--disabled": (currentPage < 2),
-          })}
-          onClick={(event) => {
-            event.preventDefault();
-            modalReset();
-            setCurrentPage(currentPage => currentPage - 1);
-          }}
-        >
-          back
-        </button>
-
-        <button
-          type="button"
-          className={classNames("Characters__nav-toggler", {
-            "Characters__nav-toggler--disabled": (pagesAmount <= currentPage),
-          })}
-          onClick={(event) => {
-            event.preventDefault();
-            modalReset();
-            setCurrentPage(currentPage => currentPage + 1);
-          }}
-        >
-          forward
-        </button>
-      </div>
+      <ListNav
+        currentPage={currentPage}
+        pagesAmount={pagesAmount}
+        setCurrentPage={setCurrentPage}
+      />
 
       {charactersFromServer &&
         <div className="Characters__list">

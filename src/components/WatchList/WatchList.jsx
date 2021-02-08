@@ -8,7 +8,7 @@ export const WatchList = () => {
   const [ newMovieTitle, setMovieTitle ] = useState('');
 
   useEffect(() => {
-    const movies = localStorage.getItem('movies') || [];
+    const movies = localStorage.getItem('movies') || '[]';
     setMovies(JSON.parse(movies));
   }, []);
 
@@ -19,13 +19,13 @@ export const WatchList = () => {
   const addMovie = (event) => {
     event.preventDefault();
 
-    if (!newMovieTitle) return;
+    if (!newMovieTitle.trim()) return;
 
     setMovies([
       ...movies,
       {
         id: Date.now(),
-        title: newMovieTitle,
+        title: newMovieTitle.trim(),
         completed: false,
       }
     ]);

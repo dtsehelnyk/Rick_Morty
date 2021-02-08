@@ -1,8 +1,6 @@
 @import '../../styles/utils';
 
 .Characters {
-  padding-bottom: 30px;
-
   &__title {
     color: #fff;
   }
@@ -17,33 +15,6 @@
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     grid-gap: 30px 30px;
     justify-content: center;
-    margin-bottom: 40px;
     margin-top: 20px;
   }
-
-  &__nav {
-    display: flex;
-    justify-content: center;
-  }
-
-  &__nav-toggler {
-    margin: 0 10px;
-    font-size: 30px;
-    color: #fff;
-    background-color: transparent;
-    transition: opacity 0.3s;
-    outline: none;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.6;
-    }
-
-    &--disabled {
-      pointer-events: none;
-      opacity: 0.4;
-    }
-  }
-
-  
 }

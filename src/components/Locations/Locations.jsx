@@ -5,14 +5,13 @@ import './Locations.scss';
 import { getData } from '../../api/api';
 import { LocationsFilter } from './LocationsFilter/LocationsFilter';
 import { Pagination } from '../Pagination/Pagination';
+import { ListNav } from '../ListNav/ListNav';
 
 export const Locations = () => {
   const [ locationsFromServer, setLocations ] = useState([]);
   const [ locationsAmount, setLocationsAmount ] = useState(0);
   const [ pagesAmount, setPagesAmount ] = useState(0);
-
   const [ currentPage, setCurrentPage ] = useState(1);
-
   const [ filter, setFilter ] = useState({
     name: '',
     type: '',
@@ -33,8 +32,6 @@ export const Locations = () => {
       console.log(newLocations.error);
       return;
     }
-
-    console.log(newLocations);
 
     setLocationsAmount(newLocations.info.count);
     setPagesAmount(newLocations.info.pages);
@@ -66,58 +63,34 @@ export const Locations = () => {
           pagesAmount={pagesAmount}
         />
 
+        <ListNav
+          currentPage={currentPage}
+          pagesAmount={pagesAmount}
+          setCurrentPage={setCurrentPage}
+        />
+
         {locationsAmount > 0 &&
-          <>
-            <div className="Locations__nav">
-              <button
-                type="button"
-                className={classNames("Locations__nav-toggler", {
-                  "Locations__nav-toggler--disabled": (currentPage < 2),
-                })}
-                onClick={(event) => {
-                  event.preventDefault();
-                  setCurrentPage(currentPage => currentPage - 1);
-                }}
-              >
-                back
-              </button>
+          <table className="Locations__table">
+            <thead>
+              <tr>
+                <td>№</td>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Dimension</td>
+              </tr>
+            </thead>
 
-              <button
-                type="button"
-                className={classNames("Locations__nav-toggler", {
-                  "Locations__nav-toggler--disabled": (pagesAmount <= currentPage),
-                })}
-                onClick={(event) => {
-                  event.preventDefault();
-                  setCurrentPage(currentPage => currentPage + 1);
-                }}
-              >
-                forward
-              </button>
-            </div>
-
-            <table className="Locations__table">
-              <thead>
-                <tr>
-                  <td>№</td>
-                  <td>Name</td>
-                  <td>Type</td>
-                  <td>Dimension</td>
+            <tbody>
+              {locationsFromServer.map(location => (
+                <tr key={location.id}>
+                  <td>{location.id}.</td>
+                  <td>{location.name}</td>
+                  <td>{location.type}</td>
+                  <td>{location.dimension}</td>
                 </tr>
-              </thead>
-
-              <tbody>
-                {locationsFromServer.map(location => (
-                  <tr key={location.id}>
-                    <td>{location.id}.</td>
-                    <td>{location.name}</td>
-                    <td>{location.type}</td>
-                    <td>{location.dimension}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
+              ))}
+            </tbody>
+          </table>
         }
       </div>
   );
