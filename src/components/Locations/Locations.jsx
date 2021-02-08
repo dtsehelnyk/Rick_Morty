@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import './Locations.scss';
 
 import { getData } from '../../api/api';
