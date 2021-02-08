@@ -10,7 +10,7 @@ export const EpisodesFilter = ({ handleSearch, setCurrentPage }) => {
       type="text"
       value={query}
       autoComplete="off"
-      placeholder="Episode"
+      placeholder="Episode title"
       onChange={event => {
         setCurrentPage(1);
         setQuery(event.target.value);
