@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import './Characters.scss';
 
@@ -6,6 +6,7 @@ import { getData } from '../../api/api';
 import { CharactersFilter } from './CharactersFilter/CharactersFilter';
 import { Character } from '../Character/Character';
 import { ModalCharacter } from '../ModalCharacter/ModalCharacter';
+import { Pagination } from '../Pagination/Pagination';
 
 export const Characters = () => {
   const [ charactersFromServer, setCharacters ] = useState([]);
@@ -69,6 +70,42 @@ export const Characters = () => {
         handleFilter={handleFilter}
       />
 
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pagesAmount={pagesAmount}
+      />
+
+      <div className="Characters__nav">
+        <button
+          type="button"
+          className={classNames("Characters__nav-toggler", {
+            "Characters__nav-toggler--disabled": (currentPage < 2),
+          })}
+          onClick={(event) => {
+            event.preventDefault();
+            modalReset();
+            setCurrentPage(currentPage => currentPage - 1);
+          }}
+        >
+          back
+        </button>
+
+        <button
+          type="button"
+          className={classNames("Characters__nav-toggler", {
+            "Characters__nav-toggler--disabled": (pagesAmount <= currentPage),
+          })}
+          onClick={(event) => {
+            event.preventDefault();
+            modalReset();
+            setCurrentPage(currentPage => currentPage + 1);
+          }}
+        >
+          forward
+        </button>
+      </div>
+
       {charactersFromServer &&
         <div className="Characters__list">
             {
@@ -81,108 +118,6 @@ export const Characters = () => {
               ))
             }
         </div>
-      }
-
-      {pagesAmount > 1 &&
-        <>
-          <div className="Characters__pagination">
-            {currentPage > 1 &&
-              <button
-                type="button"
-                className="Characters__page-button"
-                onClick={() => {
-                  modalReset();
-                  setCurrentPage(1);
-                }}
-              >
-                1
-              </button>
-            }
-
-            {currentPage > 3 && "..."}
-
-            {currentPage > 2 &&
-              <button
-                type="button"
-                className="Characters__page-button"
-                onClick={() => {
-                  modalReset();
-                  setCurrentPage(currentPage - 1);
-                }}
-              >
-                {currentPage - 1}
-              </button>
-            }
-
-            <button
-              disabled
-              type="button"
-              className="Characters__page-button Characters__page-button--active"
-            >
-              {currentPage}
-            </button>
-
-            {(currentPage < pagesAmount - 1) &&
-              <>
-                <button
-                  type="button"
-                  className="Characters__page-button"
-                  onClick={() => {
-                    modalReset();
-                    setCurrentPage(currentPage + 1);
-                  }}
-                >
-                  {currentPage + 1}
-                </button>
-              </>
-            }
-
-            {(currentPage < pagesAmount - 2) && "..."}
-
-            {currentPage < pagesAmount &&
-              <button
-                type="button"
-                className="Characters__page-button"
-                onClick={() => {
-                  modalReset();
-                  setCurrentPage(pagesAmount);
-                }}
-              >
-                {pagesAmount}
-              </button>
-            }
-          </div>
-
-          <div className="Characters__nav">
-            <button
-              type="button"
-              className={classNames("Characters__nav-toggler", {
-                "Characters__nav-toggler--disabled": (currentPage < 2),
-              })}
-              onClick={(event) => {
-                event.preventDefault();
-                modalReset();
-                setCurrentPage(currentPage => currentPage - 1);
-              }}
-            >
-              back
-            </button>
-
-            <button
-              type="button"
-              className={classNames("Characters__nav-toggler", {
-                "Characters__nav-toggler--disabled": (pagesAmount <= currentPage),
-              })}
-              onClick={(event) => {
-                event.preventDefault();
-                modalReset();
-                setCurrentPage(currentPage => currentPage + 1);
-              }}
-            >
-              forward
-            </button>
-          </div>
-        </>
       }
 
       {currentModal &&

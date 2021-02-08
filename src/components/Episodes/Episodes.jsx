@@ -4,6 +4,7 @@ import './Episodes.scss';
 
 import { getData } from '../../api/api';
 import { EpisodesFilter } from './EpisodesFilter/EpisodesFilter';
+import { Pagination } from '../Pagination/Pagination';
 
 export const Episodes = () => {
   const [ episodesFromServer, setEpisodes ] = useState([]);
@@ -42,29 +43,16 @@ export const Episodes = () => {
         <p>Pages: {pagesAmount || "0"}</p>
       </div>
 
-      <EpisodesFilter handleSearch={handleSearch}/>
+      <EpisodesFilter
+        handleSearch={handleSearch}
+        setCurrentPage={setCurrentPage}
+      />
 
-      <table className="Episodes__table">
-        <thead>
-          <tr>
-            <td>№</td>
-            <td>Episodes</td>
-            <td>Title</td>
-            <td>Air date</td>
-          </tr>
-        </thead>
-
-        <tbody>
-          {episodesFromServer.map(episode => (
-            <tr key={episode.id}>
-              <td>{episode.id}.</td>
-              <td>{episode.episode}</td>
-              <td>{episode.name}</td>
-              <td>{episode.air_date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        pagesAmount={pagesAmount}
+      />
 
       <div className="Episodes__nav">
         <button
@@ -93,6 +81,28 @@ export const Episodes = () => {
           forward
         </button>
       </div>
+
+      <table className="Episodes__table">
+        <thead>
+          <tr>
+            <td>№</td>
+            <td>Episodes</td>
+            <td>Title</td>
+            <td>Air date</td>
+          </tr>
+        </thead>
+
+        <tbody>
+          {episodesFromServer.map(episode => (
+            <tr key={episode.id}>
+              <td>{episode.id}.</td>
+              <td>{episode.episode}</td>
+              <td>{episode.name}</td>
+              <td>{episode.air_date}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

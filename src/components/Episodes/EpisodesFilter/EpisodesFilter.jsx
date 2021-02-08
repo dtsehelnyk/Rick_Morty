@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-// import classNames from 'classnames';
+import React, { useState } from 'react';
 import './EpisodesFilter.scss';
 
-export const EpisodesFilter = ({ handleSearch }) => {
+export const EpisodesFilter = ({ handleSearch, setCurrentPage }) => {
   const [ query, setQuery ] = useState('');
 
   return(
@@ -10,7 +9,10 @@ export const EpisodesFilter = ({ handleSearch }) => {
       className="EpisodesFilter"
       type="text"
       value={query}
+      autoComplete="off"
+      placeholder="Episode"
       onChange={event => {
+        setCurrentPage(1);
         setQuery(event.target.value);
         handleSearch(event.target.value);
       }}

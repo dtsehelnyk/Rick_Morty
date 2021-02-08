@@ -18,7 +18,7 @@
     grid-gap: 30px 30px;
     justify-content: center;
     margin-bottom: 40px;
-    padding-top: 40px;
+    margin-top: 20px;
   }
 
   &__nav {
@@ -45,31 +45,5 @@
     }
   }
 
-  &__pagination {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-bottom: 15px;
-    color: #fff;
-  }
-
-  &__page-button {
-    display: inline-block;
-    margin: 0 7px;
-    padding: 10px 20px;
-    background-color: $lime-green;
-    font-size: 16px;
-    cursor: pointer;
-    @include green-shadow;
-    transition: box-shadow 0.3s;
-    outline: none;
-
-    &--active {
-      background-color: $active-green;
-    }
-
-    &:hover {
-      box-shadow: 0 0 10px 5px $shadow-green;
-    }
-  }
+  
 }
