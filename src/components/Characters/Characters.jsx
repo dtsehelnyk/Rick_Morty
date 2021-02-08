@@ -2,26 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import classNames from 'classnames';
 import './Characters.scss';
 
-import { getCharacters } from '../../api/characters';
+import { getData } from '../../api/api';
 import { CharactersFilter } from './CharactersFilter/CharactersFilter';
 import { Character } from '../Character/Character';
 import { ModalCharacter } from '../ModalCharacter/ModalCharacter';
 
 export const Characters = () => {
-  // персонажи
   const [ charactersFromServer, setCharacters ] = useState([]);
 
-  // подходит под условия
   const [ cardsAmount, setCardsAmount ] = useState(0);
   const [ pagesAmount, setPagesAmount ] = useState(0);
-
-  // текущая страница
   const [ currentPage, setCurrentPage] = useState(1);
 
-  // модалка
   const [ currentModal, setModal ] = useState(null);
-
-  // фильтры
   const [ filterParams, setFilter ] = useState({
     status: '',
     species: '',
@@ -31,7 +24,7 @@ export const Characters = () => {
   const {status, species, gender} = filterParams;
 
   useEffect(async () => {
-    const newCharacters = await getCharacters(
+    const newCharacters = await getData(
       `character/?page=${currentPage}&status=${status}&gender=${gender}&species=${species}`
     );
 
@@ -66,14 +59,15 @@ export const Characters = () => {
 
   return (
     <div className="Characters">
-      <CharactersFilter
-        handleFilter={handleFilter}
-      />
-
+      <h1 className="Characters__title">Characters</h1>
       <div className="Characters__info">
         <p>Found characters: {cardsAmount || "0"}</p>
         <p>Pages: {pagesAmount || "0"}</p>
       </div>
+
+      <CharactersFilter
+        handleFilter={handleFilter}
+      />
 
       {charactersFromServer &&
         <div className="Characters__list">
@@ -96,7 +90,10 @@ export const Characters = () => {
               <button
                 type="button"
                 className="Characters__page-button"
-                onClick={() => setCurrentPage(1)}
+                onClick={() => {
+                  modalReset();
+                  setCurrentPage(1);
+                }}
               >
                 1
               </button>
@@ -108,7 +105,10 @@ export const Characters = () => {
               <button
                 type="button"
                 className="Characters__page-button"
-                onClick={() => setCurrentPage(currentPage - 1)}
+                onClick={() => {
+                  modalReset();
+                  setCurrentPage(currentPage - 1);
+                }}
               >
                 {currentPage - 1}
               </button>
@@ -117,7 +117,7 @@ export const Characters = () => {
             <button
               disabled
               type="button"
-              className="Characters__page-button"
+              className="Characters__page-button Characters__page-button--active"
             >
               {currentPage}
             </button>
@@ -127,7 +127,10 @@ export const Characters = () => {
                 <button
                   type="button"
                   className="Characters__page-button"
-                  onClick={() => setCurrentPage(currentPage + 1)}
+                  onClick={() => {
+                    modalReset();
+                    setCurrentPage(currentPage + 1);
+                  }}
                 >
                   {currentPage + 1}
                 </button>
@@ -140,7 +143,10 @@ export const Characters = () => {
               <button
                 type="button"
                 className="Characters__page-button"
-                onClick={() => setCurrentPage(pagesAmount)}
+                onClick={() => {
+                  modalReset();
+                  setCurrentPage(pagesAmount);
+                }}
               >
                 {pagesAmount}
               </button>

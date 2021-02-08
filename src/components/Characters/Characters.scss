@@ -3,6 +3,10 @@
 .Characters {
   padding-bottom: 30px;
 
+  &__title {
+    color: #fff;
+  }
+
   &__info {
     font-size: 24px;
     color: #fff;
@@ -59,6 +63,10 @@
     @include green-shadow;
     transition: box-shadow 0.3s;
     outline: none;
+
+    &--active {
+      background-color: $active-green;
+    }
 
     &:hover {
       box-shadow: 0 0 10px 5px $shadow-green;

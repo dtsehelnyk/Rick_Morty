@@ -4,6 +4,6 @@ import './Locations.scss';
 export const Locations = () => {
 
   return (
-    'Locations'
+    <h1 className="Episodes__title">Locations</h1>
   );
 }

@@ -4,6 +4,6 @@ import './WatchList.scss';
 export const WatchList = () => {
 
   return (
-    'WatchList'
+    <h1 className="Episodes__title">My watch list</h1>
   );
 }
