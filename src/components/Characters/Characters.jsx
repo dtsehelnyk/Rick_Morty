@@ -13,7 +13,7 @@ export const Characters = () => {
 
   const [ cardsAmount, setCardsAmount ] = useState(0);
   const [ pagesAmount, setPagesAmount ] = useState(0);
-  const [ currentPage, setCurrentPage] = useState(1);
+  const [ currentPage, setCurrentPage ] = useState(1);
 
   const [ currentModal, setModal ] = useState(null);
   const [ filterParams, setFilter ] = useState({
