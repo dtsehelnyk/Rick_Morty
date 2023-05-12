@@ -14,22 +14,3 @@ The Locations page is also a table with pagination and can be filtered by “nam
  	
 My watch list has a simple to do like functional there is an input field where user can write down a new episode to watch later. I used local storage to store the ToDo items. The toDo list item has a remove button to remove it from the list and the checkbox to mark it as complete(when the page has reloaded the status of the task and the list don't  change).
 
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-Your app is ready to be deployed!
