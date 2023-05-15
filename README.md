@@ -1,8 +1,8 @@
 # Rick and Morty (React.js)
 
-This task is a react web application that displays all the information about the Rick and Morty Tv series. It has 4 tabs in the navigation panel: Characters, Episodes, Locations, My watch list.
-
 ## [Demo link](https://dtsehelnyk.github.io/Rick_Morty)
+
+This task is a react web application that displays all the information about the Rick and Morty Tv series. It has 4 tabs in the navigation panel: Characters, Episodes, Locations, My watch list.
 
 ## Description
 
